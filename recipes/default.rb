@@ -37,6 +37,7 @@ package 'libmemcache-dev' do
   else
     package_name 'libmemcache-dev'
   end
+  not_if { node['platform_family'] == 'freebsd' }
 end
 
 service 'memcached' do
