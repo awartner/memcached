@@ -37,5 +37,5 @@ when 'debian'
   default['memcached']['group'] = 'nogroup'
 else
   default['memcached']['user'] = 'nobody'
-  default['memcached']['user'] = 'nogroup'
+  default['memcached']['group'] = 'nogroup'
 end

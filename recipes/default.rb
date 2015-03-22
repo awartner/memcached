@@ -66,6 +66,28 @@ when 'rhel', 'fedora', 'suse'
     )
     notifies :restart, 'service[memcached]'
   end
+when 'freebsd'
+  directory '/etc/rc.conf.d' do
+    action :create
+  end
+
+  template '/etc/rc.conf.d/memcached' do
+    source 'memcached.erb'
+    owner 'root'
+    group 'wheel'
+    mode  '0644'
+    variables(
+      :listen          => node['memcached']['listen'],
+      :user            => node['memcached']['user'],
+      :port            => node['memcached']['port'],
+      :udp_port        => node['memcached']['udp_port'],
+      :maxconn         => node['memcached']['maxconn'],
+      :memory          => node['memcached']['memory'],
+      :max_object_size => node['memcached']['max_object_size'],
+    )
+    action :create
+    notifies :restart, 'service[memcached]'
+  end
 when 'smartos'
   # SMF directly configures memcached with no opportunity to alter settings
   # If you need custom parameters, use the memcached_instance provider

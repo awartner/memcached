@@ -1,0 +1,6 @@
+#
+# Configured by Chef. Local changes will be lost.
+#
+memcached_flags="<%= "-v -m #{@memory} -p #{@port} -U #{@udp_port} "\
+  "-l #{@listen} -c #{@maxconn} -k -M -r -I #{@max_object_size}" %>"
+memcached_user="<%= @user %>"

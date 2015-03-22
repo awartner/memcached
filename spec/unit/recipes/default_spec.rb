@@ -49,10 +49,22 @@ describe 'memcached::default' do
 
   context 'on freebsd' do
     let(:chef_run) { ChefSpec::SoloRunner.new(:platform => 'freebsd', :version => '10.0').converge(described_recipe) }
+    let(:template) { chef_run.template('/etc/rc.conf.d/memcached') }
 
     it 'does not install a libmemcache-dev package' do
       resource = chef_run.package('libmemcache-dev')
       expect(resource).to do_nothing
+    end
+
+    it 'creates /etc/rc.conf.d' do
+      expect(chef_run).to create_directory('/etc/rc.conf.d')
+    end
+
+    it 'writes the /etc/rc.conf.d/memcached' do
+      expect(template).to be
+      expect(template.owner).to eq('root')
+      expect(template.group).to eq('wheel')
+      expect(template.mode).to eq('0644')
     end
   end
 end
